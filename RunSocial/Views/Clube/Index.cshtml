@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Clube>
+
+@{
+}
+
+<div class="row">
+	@foreach(Clube clube in Model)
+	{
+		<div class="col-md-4">
+			<div class="card mb-4 box-shadow">
+			<img class="card-img-top" src="@clube.Imagem">
+			<div class="card-body">
+				<p class="card-text">@clube.Titulo</p>
+				<p class="card-text">@clube.Descricao</p>
+				<div class="d-flex justify-content-between align-items-center">
+				<div class="btn-group">
+					<a asp-controller="Clube" asp-action="Details" asp-route-id="@clube.Id" class="btn btn-sm btn-outline-secondary">View</a>
+					<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+				</div>
+				<small class="text-muted">@clube.CategoriaClube</small>
+				</div>
+			</div>
+			</div>
+		</div>
+	}
+</div>

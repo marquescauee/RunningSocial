@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Corrida>
+
+@{
+}
+
+<div class="row">
+	@foreach (Corrida corrida in Model)
+	{
+			<div class="col-md-4">
+				<div class="card mb-4 box-shadow">
+						<img class="card-img-top" src="@corrida.Imagem">
+				<div class="card-body">
+							<p class="card-text">@corrida.Titulo</p>
+						<p class="card-text">@corrida.Descricao</p>
+					<div class="d-flex justify-content-between align-items-center">
+					<div class="btn-group">
+						<a asp-controller="Corrida" asp-action="Details" asp-route-id="@corrida.Id" class="btn btn-sm btn-outline-secondary">View</a>
+						<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+					</div>
+						<small class="text-muted">@corrida.CategoriaCorrida</small>
+					</div>
+				</div>
+				</div>
+			</div>
+	}
+</div>
