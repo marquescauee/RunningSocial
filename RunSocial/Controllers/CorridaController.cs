@@ -1,29 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RunSocial.Data;
+using RunSocial.Interfaces;
 using RunSocial.Models;
 
 namespace RunSocial.Controllers
 {
     public class CorridaController : Controller
     {
-        private readonly ApplicationDbContext _context;
+		private readonly ICorridaRepository _corridaRepository;
 
-        public CorridaController(ApplicationDbContext context)
+		public CorridaController(ICorridaRepository corridaRepository)
         {
-            _context = context;
-        }
+			_corridaRepository = corridaRepository;
+		}
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Corrida> corridas = _context.Corridas.ToList();
+            IEnumerable<Corrida> corridas = await _corridaRepository.GetAll();
 
             return View(corridas);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            Corrida corrida = _context.Corridas.Include(a => a.Endereco).FirstOrDefault(x => x.Id == id);
+            Corrida corrida = await _corridaRepository.GetByIdAsync(id);
 
             return View(corrida);
         }

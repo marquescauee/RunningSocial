@@ -1,29 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RunSocial.Data;
+using RunSocial.Interfaces;
 using RunSocial.Models;
 
 namespace RunSocial.Controllers
 {
     public class ClubeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+		private readonly IClubeRepository _clubeRepository;
 
-        public ClubeController(ApplicationDbContext context)
+		public ClubeController(IClubeRepository clubeRepository)
         {
-            _context = context;
-        }
+			_clubeRepository = clubeRepository;
+		}
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Clube> clubes = _context.Clubes.ToList();
+            IEnumerable<Clube> clubes = await _clubeRepository.GetAll();
 
             return View(clubes);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            Clube clube = _context.Clubes.Include(a => a.Endereco).FirstOrDefault(x => x.Id == id);
+            Clube clube = await _clubeRepository.GetByIdAsync(id);
 
             return View(clube);
         }
