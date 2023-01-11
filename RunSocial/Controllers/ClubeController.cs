@@ -28,5 +28,23 @@ namespace RunSocial.Controllers
 
             return View(clube);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Clube clube)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(clube);
+            }
+
+            _clubeRepository.Add(clube);
+
+            return RedirectToAction("Index");
+        }
     }
 }
