@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RunSocial.Data;
 using RunSocial.Interfaces;
+using RunSocial.Models;
 using RunSocial.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,13 +18,19 @@ builder.Services.AddScoped<ICorridaRepository, CorridaRepository>();
 // Add Database config
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add Identity
+builder.Services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
 var app = builder.Build();
 
 // Seeding Database
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
-    //await Seed.SeedUsersAndRolesAsync(app);
-    Seed.SeedData(app);
+    await Seed.SeedUsersAndRolesAsync(app);
+    //Seed.SeedData(app);
 }
 
 // Configure the HTTP request pipeline.

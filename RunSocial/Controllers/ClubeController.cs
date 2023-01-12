@@ -35,7 +35,7 @@ namespace RunSocial.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Clube clube)
+        public IActionResult Create(Clube clube)
         {
             if(!ModelState.IsValid)
             {
@@ -45,6 +45,44 @@ namespace RunSocial.Controllers
             _clubeRepository.Add(clube);
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            Clube clube = await _clubeRepository.GetByIdAsync(id);
+
+            if (clube == null) return View("Error");
+
+            return View(clube);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, Clube clube)
+        {
+            if(!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to edit");
+                return View("Edit", clube);
+            }
+
+            Clube clubeEditado = await _clubeRepository.GetByIdAsync(id);
+
+            if(clubeEditado != null)
+            {
+				clubeEditado.Id = clube.Id;
+				clubeEditado.Titulo = clube.Titulo;
+				clubeEditado.Descricao = clube.Descricao;
+				clubeEditado.Imagem = clube.Imagem;
+				clubeEditado.EnderecoId = clube.EnderecoId;
+				clubeEditado.Endereco = clube.Endereco;
+
+				_clubeRepository.Update(clubeEditado);
+
+				return RedirectToAction("Index");
+			} else
+            {
+                return View(clube);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace RunSocial.Models
         public CategoriaCorrida CategoriaCorrida { get; set; }
 
         [ForeignKey("User")]
-        public int? UsuarioId { get; set; }
+        public string? UsuarioId { get; set; }
         public Usuario? Usuario { get; set; }
     }
 }

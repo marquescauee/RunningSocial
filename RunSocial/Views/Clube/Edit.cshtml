@@ -1,7 +1,9 @@
 ﻿@using RunSocial.Enum;
 @model Clube
 
-<form method="POST" asp-action="Create">
+
+<form method="POST" asp-action="Edit">
+  <input type="hidden" value="AddressId" id="AddressId" />
   <div class="form-group">
     <label asp-for="Titulo">Título</label>
     <input asp-for ="Titulo" class="form-control" type="text" placeholder="Digite seu email:">

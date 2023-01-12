@@ -1,7 +1,8 @@
 ﻿@using RunSocial.Enum;
-@model Clube
+@model Corrida
 
-<form method="POST" asp-action="Create">
+<form method="POST" asp-action="Edit">
+  <input type="hidden" value="AddressId" id="AddressId" />
   <div class="form-group">
     <label asp-for="Titulo">Título</label>
     <input asp-for ="Titulo" class="form-control" type="text" placeholder="Digite seu email:">
@@ -18,13 +19,13 @@
     <span asp-validation-for="Imagem" class="text-danger"></span>
   </div>
   <div class="form-group">
-    <label asp-for="CategoriaClube">Categoria</label>
-    <select asp-for="CategoriaClube" asp-items="@Html.GetEnumSelectList<CategoriaClube>()" class="form-control">]
+    <label asp-for="CategoriaCorrida">Categoria</label>
+    <select asp-for="CategoriaCorrida" asp-items="@Html.GetEnumSelectList<CategoriaCorrida>()" class="form-control">]
            <option>
                --Selecione uma opção--
            </option>
     </select>
-    <span asp-validation-for="CategoriaClube" class="text-danger"></span>
+    <span asp-validation-for="CategoriaCorrida" class="text-danger"></span>
   </div>
   <div class="form-group">
     <label asp-for="Endereco.Rua">Rua</label>
