@@ -58,5 +58,53 @@ namespace RunSocial.Controllers
 			TempData["Error"] = "Wrong credentials. Please, try again";
 			return View(login);
 		}
-	}
+
+        public IActionResult Register()
+        {
+            Register response = new Register();
+
+            return View(response);
+        }
+
+		[HttpPost]
+		public async Task<IActionResult> Register(Register register)
+		{
+			if (!ModelState.IsValid) return View(register);
+
+			Usuario usuario = await _userManager.FindByEmailAsync(register.EmailAddress);
+
+			if (usuario != null)
+			{
+				TempData["Error"] = "This email address is already in use";
+				return View(register);
+			}
+
+			Usuario novoUsuario = new Usuario()
+			{
+				Email = register.EmailAddress,
+				UserName = register.Password,
+			};
+
+			var newUserResponse = await _userManager.CreateAsync(novoUsuario, register.Password);
+
+			if(!newUserResponse.Succeeded)
+			{
+				TempData["Error"] = "Password does not contain the requirements needed";
+				return View(register);
+			} else
+			{
+				await _userManager.AddToRoleAsync(usuario, UserRoles.User);
+				return RedirectToAction("Index", "Corrida");
+
+			}
+			
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Logout()
+		{
+			await _signInManager.SignOutAsync();
+			return RedirectToAction("Index", "Corrida");
+		}
+    }
 }

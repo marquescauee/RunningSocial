@@ -10,7 +10,7 @@ namespace RunSocial.Models
         public int? Quilometragem { get; set; }
 
         [ForeignKey("Endereco")]
-        public int EnderecoId { get; set; }
+        public int? EnderecoId { get; set; }
         public Endereco? Endereco { get; set; }
         public ICollection<Clube> Clubes { get; set; }
         public ICollection<Corrida> Corridas { get; set; }
